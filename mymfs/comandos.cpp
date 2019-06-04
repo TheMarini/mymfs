@@ -46,7 +46,7 @@ void importarArquivo(string caminhoComando, string caminhoArquivoImport) {
 		cout << "O Mymfs nao esta configurado na unidade informada." << endl; //Caso nao exista, nao permite a importacao
 		return;
 	}
-	if (end < 50000) {                          //Apenas permite a importaÁ„o se o arquivo de config for menor que 50KB
+	if (end < 50000) {                          //Apenas permite a importa√ß√£o se o arquivo de config for menor que 50KB
 
 		if (!fsys::exists(caminhoComando + "/files")) {
 			fsys::create_directory(caminhoComando + "/files");
@@ -60,12 +60,12 @@ void importarArquivo(string caminhoComando, string caminhoArquivoImport) {
 			infile.seekg(0);
 			long sizeMax = 512000;          //Define o tamanho maximo dos arquivos como 500KB
 
-			int numArquivos = ceil((end - begin) / 512000.0); // Verifica quantos arquivos de 500 KB ou menos ser„o criados
+			int numArquivos = ceil((end - begin) / 512000.0); // Verifica quantos arquivos de 500 KB ou menos ser√£o criados
 
 			char* buffer;
 			infile.seekg(0);
 
-			//Obtem o nome do diretÛrio a ser criado para o arquivo atraves do seu nome
+			//Obtem o nome do diret√≥rio a ser criado para o arquivo atraves do seu nome
 			string extensaoArquivo = caminhoArquivoImport.substr(caminhoArquivoImport.find(".") + 1, (caminhoArquivoImport.size() - caminhoArquivoImport.find(";")));
 			string nomeDiretorio = caminhoArquivoImport;
 
@@ -80,7 +80,7 @@ void importarArquivo(string caminhoComando, string caminhoArquivoImport) {
 
 			string caminhoDiretorioString = caminhoComando + "/files/" + nomeDiretorio;
 
-			int erro = fsys::create_directory(caminhoDiretorioString);   //Cria o diretÛrio para o arquivo a ser importado. Caso ocorra algum erro ou o diretÛrio ja exista, retorna zero
+			int erro = fsys::create_directory(caminhoDiretorioString);   //Cria o diret√≥rio para o arquivo a ser importado. Caso ocorra algum erro ou o diret√≥rio ja exista, retorna zero
 
 			if (erro != 0) {           //Caso nao ocorram erros, cria os arquivos de 500KB ou menos
 				for (int i = 0; i < numArquivos; i++) {
@@ -89,7 +89,7 @@ void importarArquivo(string caminhoComando, string caminhoArquivoImport) {
 
 					ofstream outfile(caminhoDiretorioString + "/" + s + ".txt", ofstream::binary);
 
-					if (i != numArquivos - 1) {  //Efetua a divisao do arquivo de importaÁ„o em arquivos de 500KB ou menos
+					if (i != numArquivos - 1) {  //Efetua a divisao do arquivo de importa√ß√£o em arquivos de 500KB ou menos
 						infile.seekg(pos);
 						buffer = new char[sizeMax];
 						infile.read(buffer, sizeMax);
@@ -119,7 +119,7 @@ void importarArquivo(string caminhoComando, string caminhoArquivoImport) {
 					linhaConfig = "\n" + nomeDiretorio + " " + to_string(numArquivos);
 				}
 				arqConfigVazio.close();
-				arqConfig << linhaConfig; //Adiciona o arquivo importado no arquivo de configuraÁ„o (nomeArquivo;quantidadeArquivos)
+				arqConfig << linhaConfig; //Adiciona o arquivo importado no arquivo de configura√ß√£o (nomeArquivo;quantidadeArquivos)
 				arqConfig.close();
 				cout << "O arquivo foi importado para o Mymfs com sucesso." << endl;
 			}
@@ -150,7 +150,7 @@ string verificarArquivoExisteEmConfig(string caminhoComando, string nomeArquivo)
 	string linhaConfig;
 
 	do {
-		//Percorre o arquivo config atÈ o final ou atÈ encontrar o arquivo a ser exportado
+		//Percorre o arquivo config at√© o final ou at√© encontrar o arquivo a ser exportado
 		getline(arqConfig, linhaConfig);
 		nomeDiretorioEncontrado = linhaConfig.substr(0, linhaConfig.find(" "));
 		qtdArquivosEncontrado = linhaConfig.substr(linhaConfig.find(" ") + 1,
@@ -169,12 +169,12 @@ string verificarArquivoExisteEmConfig(string caminhoComando, string nomeArquivo)
 void exportarArquivo(string caminhoComando, string nomeArquivoExport, string caminhoDiretorioExport) {
 	ifstream arqConfigExiste(caminhoComando + "/mymfs.config");
 
-	//Verifica se o arquivo de configuraÁ„o e se o arquivo a ser exportado existem
+	//Verifica se o arquivo de configura√ß√£o e se o arquivo a ser exportado existem
 	if (!nomeArquivoExport.empty() && !caminhoDiretorioExport.empty() && mymfsEstaConfigurado(caminhoComando)) {
 		string nomeDiretorioEncontrado;
 		string qtdArquivosEncontrado;
 
-		//Percorre o arquivoConfig para obter a linha de configuraÁ„o do arquivo a ser exportado
+		//Percorre o arquivoConfig para obter a linha de configura√ß√£o do arquivo a ser exportado
 		string linhaConfig = verificarArquivoExisteEmConfig(caminhoComando, nomeArquivoExport);
 
 
@@ -236,12 +236,12 @@ void listAll(string caminhoComando) {
 		string linhaConfig;
 		getline(arqConfig, linhaConfig);
 		if (linhaConfig.length() > 0) {
-			//Caso existam registros no arquivo config, eles ser„o buscados e exibidos
+			//Caso existam registros no arquivo config, eles ser√£o buscados e exibidos
 			nomeDiretorioEncontrado = linhaConfig.substr(0, linhaConfig.find(" "));
 			string extensaoDiretorio = linhaConfig.substr(0, linhaConfig.find("-"));
 			nomeDiretorioEncontrado = nomeDiretorioEncontrado.substr(nomeDiretorioEncontrado.find("-") + 1, (nomeDiretorioEncontrado.size() - nomeDiretorioEncontrado.find("-")));
 			while (!arqConfig.eof() && !nomeDiretorioEncontrado.empty()) {
-				//Exibe nome do diretÛrio/arquivo
+				//Exibe nome do diret√≥rio/arquivo
 				cout << nomeDiretorioEncontrado + "." << extensaoDiretorio << endl;
 				string linhaConfig;
 				getline(arqConfig, linhaConfig);
@@ -292,12 +292,12 @@ void remove(string caminhoComando, string nomeArquivo) {
 			}
 
 			if (linhaConfigNovo.length() > 0) {
-				//Caso existam registros no arquivo config, eles ser„o buscados e exibidos
+				//Caso existam registros no arquivo config, eles ser√£o buscados e exibidos
 				while (!arqConfig.eof() && !linhaConfigNovo.empty()) {
 					getline(arqConfig, linhaConfigNovo);
 
 					nomeArquivoEncontrado = converterLinhaConfigParaNomeArquivo(linhaConfigNovo);
-					if (strcmp(nomeArquivoEncontrado.c_str(),nomeArquivo.c_str())) {
+					if ((strcmp(nomeArquivoEncontrado.c_str(),nomeArquivo.c_str())) != 0) {
 						configNovo += "\n" + linhaConfigNovo;
 					}
 				}
@@ -348,12 +348,12 @@ void removeAll(string caminhoComando) {
 void procuraPalavra(string caminhoComando, string palavra, string caminhoArquivoToRead) {
 	ifstream arqConfigExiste(caminhoComando + "/mymfs.config");
 
-	//Verifica se o arquivo de configuraÁ„o e se o arquivo a ser exportado existem
+	//Verifica se o arquivo de configura√ß√£o e se o arquivo a ser exportado existem
 	if (!caminhoArquivoToRead.empty() && mymfsEstaConfigurado(caminhoComando)) {
 		string nomeDiretorioEncontrado;
 		string qtdArquivosEncontrado;
 
-		//Percorre o arquivoConfig para obter a linha de configuraÁ„o do arquivo a ser exportado
+		//Percorre o arquivoConfig para obter a linha de configura√ß√£o do arquivo a ser exportado
 		string linhaConfig = verificarArquivoExisteEmConfig(caminhoComando, caminhoArquivoToRead);
 
 
@@ -408,7 +408,7 @@ void procuraPalavra(string caminhoComando, string palavra, string caminhoArquivo
 					arqPesquisa.close();
 				}
 				if (i == numArquivos) {
-					cout << "N„o Encontrado" << endl;
+					cout << "N√£o Encontrado" << endl;
 				}
 				else {
 					cout << "O arquivo nao foi encontrado no Mymfs, portanto nao foi feita a busca" << endl;
@@ -429,12 +429,12 @@ void primeiras100Linhas(string caminhoComando, string caminhoArquivoToRead) {
 
 	ifstream arqConfigExiste(caminhoComando + "/mymfs.config");
 
-	//Verifica se o arquivo de configuraÁ„o e se o arquivo a ser exportado existem
+	//Verifica se o arquivo de configura√ß√£o e se o arquivo a ser exportado existem
 	if (!caminhoArquivoToRead.empty() && mymfsEstaConfigurado(caminhoComando)) {
 		string nomeDiretorioEncontrado;
 		string qtdArquivosEncontrado;
 
-		//Percorre o arquivoConfig para obter a linha de configuraÁ„o do arquivo a ser exportado
+		//Percorre o arquivoConfig para obter a linha de configura√ß√£o do arquivo a ser exportado
 		string linhaConfig = verificarArquivoExisteEmConfig(caminhoComando, caminhoArquivoToRead);
 
 
@@ -509,12 +509,12 @@ void primeiras100Linhas(string caminhoComando, string caminhoArquivoToRead) {
 void ultimas100Linhas(string caminhoComando, string caminhoArquivoToRead) {
 	ifstream arqConfigExiste(caminhoComando + "/mymfs.config");
 
-	//Verifica se o arquivo de configuraÁ„o e se o arquivo existem
+	//Verifica se o arquivo de configura√ß√£o e se o arquivo existem
 	if (!caminhoArquivoToRead.empty() && mymfsEstaConfigurado(caminhoComando)) {
 		string nomeDiretorioEncontrado;
 		string qtdArquivosEncontrado;
 
-		//Percorre o arquivoConfig para obter a linha de configuraÁ„o do arquivo
+		//Percorre o arquivoConfig para obter a linha de configura√ß√£o do arquivo
 		string linhaConfig = verificarArquivoExisteEmConfig(caminhoComando, caminhoArquivoToRead);
 
 
