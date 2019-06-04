@@ -479,7 +479,6 @@ void primeiras100Linhas(string caminhoComando, string caminhoArquivoToRead) {
 							}
 							else if (arqPesquisa.get() != '\n') {
 								ultimaLinha = linha;
-								contaLinha--;
 							}
 						}
 						if (contaLinha == 100)
