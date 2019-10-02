@@ -56,7 +56,7 @@ O mymfs deve prover ao usuário as seguintes funcionalidades: config, import, li
 
 |Nome | head100 |
 | ------ | ------ |
-| Comando | mymfs.exe X read100 file.txt |
+| Comando | mymfs.exe X head100 file.txt |
 | Pré-condição | Existe um sistema de arquivos mymfs na unidade X. O arquivo file.txt está, pelo mymfs, dentro da unidade X. |
 | Pós-condição | No terminal, as 100 primeiras linhas do arquivo file.txt estão exibidas ou está exibido erro associado à pré-condição. O estado da unidade X, pelo mymfs, não foi alterado. |
 
