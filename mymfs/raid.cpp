@@ -1,8 +1,7 @@
 // Cabeçalhos
 #include "pch.h"
 #include "utils.h"
-
-//#include "unidade.h"
+#include "unidade.h"
 
 // Bibliotecas
 #include <iostream>
@@ -13,12 +12,6 @@
 
 namespace fsys = std::filesystem;
 using namespace std;
-
-bool arquivoExiste (string arquivo) {
-	if (arquivo.empty())
-		return false;
-	return fsys::exists(arquivo);
-}
 
 // Adiciona múltiplas unidades físicas ao .temp
 bool adicionarUnidadesFisicas (string caminhoArquivo, vector <string> unidadesFisicas) {
@@ -42,6 +35,29 @@ bool adicionarUnidadesFisicas (string caminhoArquivo, vector <string> unidadesFi
 	return true;
 }
 
+// Retornar todas as unidades físicas salvas em .temp
+vector <string> unidadesFisicasEmTemp(string temp) {
+	ifstream arquivo(temp);
+	vector <string> unidades;
+
+	for (string linha; getline(arquivo, linha); unidades.push_back(linha));
+
+	return unidades;
+}
+
+// Configurar todas as unidades físicas de .temp
+bool configUnidadesFisicas(string caminhoTemp) {
+	vector <string> unidades = unidadesFisicasEmTemp(caminhoTemp);
+
+	for (int i = 0; i < unidades.size(); i++)
+		if (config(unidades[i]))
+			println("[log] Unidade fisica " + unidades[i] + " configurada");
+		else
+			println("[warning] Unidade fisica " + unidades[i] + " ja estava configurada");
+	
+	return true;
+}
+
 // TODO: implementar a possibilidade de adicionar uma nova unidade física depois do Raid configurado
 // Configurar Raid
 bool configRaid(string unidadeLogica, vector <string> unidadesFisicas, string caminhoBase, string barra) {
@@ -57,10 +73,12 @@ bool configRaid(string unidadeLogica, vector <string> unidadesFisicas, string ca
 
 	if (!fsys::exists(caminhoArquivo)) {
 		if (adicionarUnidadesFisicas(caminhoArquivo, unidadesFisicas)) {
-			cout << "O MyMFS configurado com sucesso!" << endl;
-			cout << "- Unidade logica: " + unidadeLogica << endl;
-			cout << "- Unidades fisicas: " + unidadesFisicasStr << endl;
-			return true;
+			if (configUnidadesFisicas(caminhoArquivo)) {
+				cout << "O MyMFS configurado com sucesso!" << endl;
+				cout << "- Unidade logica: " + unidadeLogica << endl;
+				cout << "- Unidades fisicas: " + unidadesFisicasStr << endl;
+				return true;
+			}
 		}
 
 		return false;
