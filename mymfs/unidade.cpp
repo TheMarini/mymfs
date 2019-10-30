@@ -20,17 +20,17 @@ bool arquivoEstaVazio(std::ifstream& pFile)
 	return pFile.peek() == std::ifstream::traits_type::eof();
 }
 
-void config(string caminhoComando) {
+bool config(string caminhoComando) {
 	string caminhoConfig = caminhoComando + "/mymfs.config";
 
-	if (mymfsEstaConfigurado(caminhoComando)) {   //Verifica se o arquivo Config ja existe no caminho especificado
-		cout << "O Mymfs ja esta configurado nesta unidade." << endl;
-	}
-	else {
-		ofstream arquivoConfig(caminhoConfig);       //Cria o arquivo config, configurando o Mymfs na unidade especificada
+	if (!mymfsEstaConfigurado(caminhoComando)) {
+		// Cria o arquivo config, configurando o Mymfs na unidade especificada
+		ofstream arquivoConfig(caminhoConfig);
 		arquivoConfig.close();
-		cout << "O Mymfs foi configurado nesta unidade com sucesso." << endl;
+		return true;
 	}
+
+	return false;
 }
 
 void importarArquivo(string caminhoComando, string caminhoArquivoImport) {
