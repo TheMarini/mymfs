@@ -30,6 +30,9 @@
     <ClInclude Include="raid.h">
       <Filter>Header Files\comandos</Filter>
     </ClInclude>
+    <ClInclude Include="utils.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -43,6 +46,9 @@
     </ClCompile>
     <ClCompile Include="raid.cpp">
       <Filter>Resource Files\Source Files\comandos</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
+      <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
