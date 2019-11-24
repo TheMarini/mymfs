@@ -1,14 +1,18 @@
 #ifndef COMANDOS.H
 #include <string>
 
-bool config (std::string caminhoComando);
-void importarArquivo(std::string caminhoComando, std::string caminhoArquivoImport);
-void exportarArquivo(std::string caminhoComando, std::string caminhoArquivoExport, std::string caminhoDiretorioExport);
-void listAll(std::string caminhoComando);
-void remove(std::string caminhoComando, std::string nomeArquivo);
-void removeAll(std::string caminhoComando);
-void procuraPalavra(std::string caminhoComando, std::string palavra, std::string caminhoArquivoToRead);
-void primeiras100Linhas(std::string caminhoComando, std::string caminhoArquivoToRead);
-void ultimas100Linhas(std::string caminhoComando, std::string caminhoArquivoToRead);
+class Unidade {
+	public:
+		static bool config(std::string caminhoComando);
+		static void importarArquivo(std::string caminhoComando, std::string caminhoArquivoImport);
+		static void exportarArquivo(std::string caminhoComando, std::string caminhoArquivoExport, std::string caminhoDiretorioExport);
+		static void listAll(std::string caminhoComando);
+		static void remove(std::string caminhoComando, std::string nomeArquivo);
+		static void removeAll(std::string caminhoComando);
+		static void procuraPalavra(std::string caminhoComando, std::string palavra, std::string caminhoArquivoToRead);
+		static void primeiras100Linhas(std::string caminhoComando, std::string caminhoArquivoToRead);
+		static void ultimas100Linhas(std::string caminhoComando, std::string caminhoArquivoToRead);
+};
+
 
 #endif //COMANDOS.H
