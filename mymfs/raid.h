@@ -5,6 +5,9 @@
 #include <filesystem>
 using namespace std;
 
-bool configRaid (string unidadeLogica, vector <string> unidadesFisicas, string caminhoBase, string barra);
+class Raid {
+	public:
+		static bool config (string unidadeLogica, vector <string> unidadesFisicas, string caminhoBase, string barra);
+};
 
 #endif //RAID.H

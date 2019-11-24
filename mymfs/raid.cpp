@@ -2,6 +2,7 @@
 #include "pch.h"
 #include "utils.h"
 #include "unidade.h"
+#include "raid.h"
 
 // Bibliotecas
 #include <iostream>
@@ -50,7 +51,7 @@ bool configUnidadesFisicas(string caminhoTemp) {
 	vector <string> unidades = unidadesFisicasEmTemp(caminhoTemp);
 
 	for (int i = 0; i < unidades.size(); i++)
-		if (config(unidades[i]))
+		if (Unidade::config(unidades[i]))
 			println("[log] Unidade fisica " + unidades[i] + " configurada");
 		else
 			println("[warning] Unidade fisica " + unidades[i] + " ja estava configurada");
@@ -60,7 +61,7 @@ bool configUnidadesFisicas(string caminhoTemp) {
 
 // TODO: implementar a possibilidade de adicionar uma nova unidade física depois do Raid configurado
 // Configurar Raid
-bool configRaid(string unidadeLogica, vector <string> unidadesFisicas, string caminhoBase, string barra) {
+bool Raid::config(string unidadeLogica, vector <string> unidadesFisicas, string caminhoBase, string barra) {
 	string caminhoPasta = caminhoBase + barra + "temp";
 	string caminhoArquivo = caminhoPasta + barra + "mymfs.temp";
 
