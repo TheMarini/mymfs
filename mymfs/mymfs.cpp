@@ -1,6 +1,5 @@
-// Cabeçalhos pré-compilados
-#include "pch.h"
 // Cabeçalhos
+#include "pch.h"
 #include "raid.h"
 
 // Bibliotecas
@@ -11,52 +10,93 @@
 namespace fsys = std::filesystem;
 using namespace std;
 
-void config(string caminho, string unidadeLogica, vector <string> unidadesFisicas) {
-	// Nome do executável
-	string nomeExe;
-	// Tipo de barra
-	string barra;
+class MyMFS {
+	public:
+		// Tamanho dos argumanetos
+		int argc;
+		// Vetor de argumentos
+		char** argv;
 
-	// TODO: muito provavelmente a ocorrência de não achar a substring não retorna um erro
-	try {
-		// Windows
-		nomeExe = caminho.substr(caminho.find_last_of("\\"));
-		barra = "\\";
-	}
-	catch (const std::exception&) {
-		// Linux
-		nomeExe = caminho.substr(caminho.find_last_of("/"));
-		barra = "/";
-	}
+		// Unidade lógica
+		string unidadeLogica;
 
-	// Caminho base
-	string caminhoBase = caminho;
-	// Remover o nome do executável para pegar somente o caminho base
-	caminhoBase.erase(caminhoBase.find(nomeExe), nomeExe.length());
+		// Construtor
+		MyMFS(int argc, char** argv) {
+			// Argumentos
+			this->argc = argc;
+			this->argv = argv;
 
-	configRaid(unidadeLogica, unidadesFisicas, caminhoBase, barra);
-}
+			// Caminho de execução
+			MyMFS::Ambiente::caminhoCompleto = argv[0];
+		
+			// Nome da unidade lógica
+			//this->unidadeLogica = argv[1];
+		
+			//this->executarComando(argv[2]);
+		}
+
+		// Executar comando
+		bool executarComando(string comando) {
+			if (comando == "config") {
+				vector<string> unidadesFisicas(argv, argv + argc - 3);
+
+				for (int index = 3; index < argc; index++)
+					unidadesFisicas[index - 3] = argv[index];
+
+				return config(MyMFS::Ambiente::caminhoCompleto, unidadeLogica, unidadesFisicas);
+			}
+
+			return false;
+		}
+
+	private: 
+		static class Ambiente {
+			public:
+				// Caminho completo da execução
+				static string caminhoCompleto;
+				// Nome do executável
+				static string nomeExecutavel;
+				// Tipo de barra
+				static string barra;
+
+				Ambiente() {
+
+				}
+		};
+
+		// Unidades físicas
+		static vector <string> unidadesFisicas;
+
+		// Configurar MyMFS
+		static bool config(string caminho, string unidadeLogica, vector <string> unidadesFisicas) {
+			// TODO: muito provavelmente a ocorrência de não achar a substring não retorna um erro
+			try {
+				// Windows
+				MyMFS::Ambiente::nomeExecutavel = caminho.substr(caminho.find_last_of("\\"));
+				MyMFS::Ambiente::barra = "\\";
+			}
+			catch (const std::exception&) {
+				// Linux
+				MyMFS::Ambiente::nomeExecutavel = caminho.substr(caminho.find_last_of("/"));
+				MyMFS::Ambiente::barra = "/";
+			}
+
+			// Caminho base
+			string caminhoBase = caminho;
+			// Remover o nome do executável para pegar somente o caminho base
+			caminhoBase.erase(caminhoBase.find(MyMFS::Ambiente::nomeExecutavel), MyMFS::Ambiente::nomeExecutavel.length());
+
+			return Raid::config(unidadeLogica, unidadesFisicas, caminhoBase, MyMFS::Ambiente::barra);
+		}
+};
 
 int main(int argc, char **argv) {
-
 	// Deve possuir no mínimo 3 argumentos: <nome do executável> <nome da unidade lógica> <comando>
 	if (argc >= 3) {
-		// Caminho do executável
-		string caminho = argv[0];
+		// Início
+		MyMFS* API = new MyMFS(argc, argv);
 
-		// Nome da unidade lógica
-		string unidadeLogica = argv[1];
-
-		// Comando do MyMFS que deve ser executado
-		string comando = argv[2];
-
-		if (comando == "config") {
-			vector<string> unidadesFisicas(argv, argv + argc - 3);
-
-			for (int index = 3; index < argc; index++)
-				unidadesFisicas[index - 3] = argv[index];
-
-			config(caminho, unidadeLogica, unidadesFisicas);
-		}
+		// Fim
+		delete API;
 	}
 }
