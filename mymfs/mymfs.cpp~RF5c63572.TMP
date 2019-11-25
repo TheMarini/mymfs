@@ -11,21 +11,51 @@
 namespace fsys = std::filesystem;
 using namespace std;
 
+class Ambiente {
+public:
+	// Caminho completo da execução
+	static string caminhoCompleto;
+	// Nome do executável
+	static string nomeExecutavel;
+	// Tipo de barra
+	static string barra;
+
+	Ambiente() {
+
+	}
+};
+
 class MyMFS {
 	public:
+		// Tamanho dos argumanetos
+		int argc;
+		// Vetor de argumentos
+		char** argv;
+
+		// Unidade lógica
+		string unidadeLogica;
+
+		// Ambiente
+		Ambiente ambiente;
+
 		// Construtor
 		MyMFS(int argc, char** argv) {
 			// Argumentos
 			this->argc = argc;
 			this->argv = argv;
 
-			// Caminho de execução
-			this->caminhoCompleto = argv[0];
+			MyMFS::Ambiente ambiente;
 
-			// Nome da unidade lógica
-			this->unidadeLogica = argv[1];
+			//MyMFS::Ambiente* ambiente = new MyMFS::Ambiente();
+			//println(ambiente->mae);
+
+			// Caminho de execução
+			ambiente.caminhoCompleto = argv[0];
 		
-			this->executarComando(argv[2]);
+			// Nome da unidade lógica
+			//this->unidadeLogica = argv[1];
+		
+			//this->executarComando(argv[2]);
 		}
 
 		// Executar comando
@@ -36,52 +66,36 @@ class MyMFS {
 				for (int index = 3; index < argc; index++)
 					unidadesFisicas[index - 3] = argv[index];
 
-				return config(this->caminhoCompleto, unidadeLogica, unidadesFisicas);
+				return config(MyMFS::Ambiente::caminhoCompleto, unidadeLogica, unidadesFisicas);
 			}
 
 			return false;
 		}
 
 	private: 
-		// --- ARGUMENTOS ---
-		// Tamanho dos argumanetos
-		int argc;
-		// Vetor de argumentos
-		char** argv;
-
-		// --- AMBIENTE ---
-		// Unidade lógica
-		string unidadeLogica;
-		// Caminho completo da execução
-		string caminhoCompleto;
-		// Nome do executável
-		string nomeExecutavel;
-		// Tipo de barra
-		string barra;
-
 		// Unidades físicas
 		static vector <string> unidadesFisicas;
 
 		// Configurar MyMFS
-		bool config(string caminho, string unidadeLogica, vector <string> unidadesFisicas) {
+		static bool config(string caminho, string unidadeLogica, vector <string> unidadesFisicas) {
 			// TODO: muito provavelmente a ocorrência de não achar a substring não retorna um erro
 			try {
 				// Windows
-				this->nomeExecutavel = caminho.substr(caminho.find_last_of("\\"));
-				this->barra = "\\";
+				MyMFS::Ambiente::nomeExecutavel = caminho.substr(caminho.find_last_of("\\"));
+				MyMFS::Ambiente::barra = "\\";
 			}
 			catch (const std::exception&) {
 				// Linux
-				this->nomeExecutavel = caminho.substr(caminho.find_last_of("/"));
-				this->barra = "/";
+				MyMFS::Ambiente::nomeExecutavel = caminho.substr(caminho.find_last_of("/"));
+				MyMFS::Ambiente::barra = "/";
 			}
 
 			// Caminho base
 			string caminhoBase = caminho;
 			// Remover o nome do executável para pegar somente o caminho base
-			caminhoBase.erase(caminhoBase.find(this->nomeExecutavel), this->nomeExecutavel.length());
+			caminhoBase.erase(caminhoBase.find(MyMFS::Ambiente::nomeExecutavel), MyMFS::Ambiente::nomeExecutavel.length());
 
-			return Raid::config(unidadeLogica, unidadesFisicas, caminhoBase, this->barra);
+			return Raid::config(unidadeLogica, unidadesFisicas, caminhoBase, MyMFS::Ambiente::barra);
 		}
 };
 
