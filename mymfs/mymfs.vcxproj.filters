@@ -13,12 +13,24 @@
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
+    <Filter Include="Header Files\comandos">
+      <UniqueIdentifier>{0790304c-1712-44b7-b1dd-e17325dc6478}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Source Files\comandos">
+      <UniqueIdentifier>{d6bae3ce-b06e-4b84-b1fd-eb1b44c9a0f0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="pch.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="comandos.h">
+    <ClInclude Include="unidade.h">
+      <Filter>Header Files\comandos</Filter>
+    </ClInclude>
+    <ClInclude Include="raid.h">
+      <Filter>Header Files\comandos</Filter>
+    </ClInclude>
+    <ClInclude Include="utils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -29,7 +41,13 @@
     <ClCompile Include="mymfs.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="comandos.cpp">
+    <ClCompile Include="unidade.cpp">
+      <Filter>Resource Files\Source Files\comandos</Filter>
+    </ClCompile>
+    <ClCompile Include="raid.cpp">
+      <Filter>Resource Files\Source Files\comandos</Filter>
+    </ClCompile>
+    <ClCompile Include="utils.cpp">
       <Filter>Resource Files\Source Files</Filter>
     </ClCompile>
   </ItemGroup>

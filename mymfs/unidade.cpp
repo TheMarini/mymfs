@@ -1,5 +1,8 @@
+// Cabeçalhos
 #include "pch.h"
-#include "comandos.h"
+#include "unidade.h"
+
+// Bibliotecas
 #include <iostream>
 #include <fstream>
 #include <math.h>
@@ -20,20 +23,20 @@ bool arquivoEstaVazio(std::ifstream& pFile)
 	return pFile.peek() == std::ifstream::traits_type::eof();
 }
 
-void config(string caminhoComando) {
+bool Unidade::config(string caminhoComando) {
 	string caminhoConfig = caminhoComando + "/mymfs.config";
 
-	if (mymfsEstaConfigurado(caminhoComando)) {   //Verifica se o arquivo Config ja existe no caminho especificado
-		cout << "O Mymfs ja esta configurado nesta unidade." << endl;
-	}
-	else {
-		ofstream arquivoConfig(caminhoConfig);       //Cria o arquivo config, configurando o Mymfs na unidade especificada
+	if (!mymfsEstaConfigurado(caminhoComando)) {
+		// Cria o arquivo config, configurando o Mymfs na unidade especificada
+		ofstream arquivoConfig(caminhoConfig);
 		arquivoConfig.close();
-		cout << "O Mymfs foi configurado nesta unidade com sucesso." << endl;
+		return true;
 	}
+
+	return false;
 }
 
-void importarArquivo(string caminhoComando, string caminhoArquivoImport) {
+void Unidade::importarArquivo(string caminhoComando, string caminhoArquivoImport) {
 	streampos begin, end, pos;
 	ifstream arqConfigExiste(caminhoComando + "/mymfs.config"); // Verifica se o arquivo Config existe
 	if (mymfsEstaConfigurado(caminhoComando)) {
@@ -158,7 +161,7 @@ string verificarArquivoExisteEmConfig(string caminhoComando, string nomeArquivo)
 	return "";
 }
 
-void exportarArquivo(string caminhoComando, string nomeArquivoExport, string caminhoDiretorioExport) {
+void Unidade::exportarArquivo(string caminhoComando, string nomeArquivoExport, string caminhoDiretorioExport) {
 	ifstream arqConfigExiste(caminhoComando + "/mymfs.config");
 
 	//Verifica se o arquivo de configuração e se o arquivo a ser exportado existem
@@ -216,7 +219,7 @@ void exportarArquivo(string caminhoComando, string nomeArquivoExport, string cam
 	}
 }
 
-void listAll(string caminhoComando) {
+void Unidade::listAll(string caminhoComando) {
 	//Valida se o arquivo config existe no diretorio especificado
 	ifstream arqConfig(caminhoComando + "/mymfs.config");
 	if (mymfsEstaConfigurado(caminhoComando)) {
@@ -255,7 +258,7 @@ string converterLinhaConfigParaNomeArquivo(string linhaConfig) {
 	return nomeArquivoEncontrado + "." + extensaoArquivoEncontrado;
 }
 
-void remove(string caminhoComando, string nomeArquivo) {
+void Unidade::remove(string caminhoComando, string nomeArquivo) {
 	ifstream arqConfig(caminhoComando + "/mymfs.config");
 
 	if (nomeArquivo.empty()) {
@@ -302,7 +305,7 @@ void remove(string caminhoComando, string nomeArquivo) {
 	}
 }
 
-void removeAll(string caminhoComando) {
+void Unidade::removeAll(string caminhoComando) {
 	ofstream arquivoConfig;
 	if (mymfsEstaConfigurado(caminhoComando)) {
 		if (fsys::exists(caminhoComando + "/files")) {
@@ -321,7 +324,7 @@ void removeAll(string caminhoComando) {
 	}
 }
 
-void procuraPalavra(string caminhoComando, string palavra, string caminhoArquivoToRead) {
+void Unidade::procuraPalavra(string caminhoComando, string palavra, string caminhoArquivoToRead) {
 	ifstream arqConfigExiste(caminhoComando + "/mymfs.config");
 
 	//Verifica se o arquivo de configuração e se o arquivo a ser exportado existem
@@ -402,7 +405,7 @@ void procuraPalavra(string caminhoComando, string palavra, string caminhoArquivo
 		cout << "O Mymfs nao esta configurado na unidade informada." << endl;
 }
 
-void primeiras100Linhas(string caminhoComando, string caminhoArquivoToRead) {
+void Unidade::primeiras100Linhas(string caminhoComando, string caminhoArquivoToRead) {
 
 	ifstream arqConfigExiste(caminhoComando + "/mymfs.config");
 
@@ -480,7 +483,7 @@ void primeiras100Linhas(string caminhoComando, string caminhoArquivoToRead) {
 
 }
 
-void ultimas100Linhas(string caminhoComando, string caminhoArquivoToRead) {
+void Unidade::ultimas100Linhas(string caminhoComando, string caminhoArquivoToRead) {
 	ifstream arqConfigExiste(caminhoComando + "/mymfs.config");
 
 	//Verifica se o arquivo de configuração e se o arquivo existem
